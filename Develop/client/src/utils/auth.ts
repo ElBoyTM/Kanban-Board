@@ -3,16 +3,24 @@ import type { UserData } from '../interfaces/UserData';
 
 class AuthService {
   getProfile() {
-    // TODO: return the decoded token
+    // DONE: return the decoded token
     return jwtDecode<UserData>(this.getToken());
   }
 
   loggedIn() {
     // TODO: return a value that indicates if the user is logged in
+    const token = this.getToken();
+    return !!token && !this.isTokenExpired(token);
   }
   
-  isTokenExpired(token: string) {
-    // TODO: return a value that indicates if the token is expired
+  isTokenExpired(token: string): boolean {
+    // TODO: implement token expiration check logic
+    const decodedToken = jwtDecode<JwtPayload>(token);
+    if (decodedToken.exp) {
+      const expirationDate = new Date(decodedToken.exp * 1000);
+      return expirationDate < new Date();
+    }
+    return true;
   }
 
   getToken(): string {
