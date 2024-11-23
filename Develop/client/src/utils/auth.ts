@@ -8,13 +8,13 @@ class AuthService {
   }
 
   loggedIn() {
-    // TODO: return a value that indicates if the user is logged in
+    // DONE: return a value that indicates if the user is logged in
     const token = this.getToken();
     return !!token && !this.isTokenExpired(token);
   }
   
   isTokenExpired(token: string): boolean {
-    // TODO: implement token expiration check logic
+    // DONE: implement token expiration check logic
     const decodedToken = jwtDecode<JwtPayload>(token);
     if (decodedToken.exp) {
       const expirationDate = new Date(decodedToken.exp * 1000);
@@ -24,13 +24,15 @@ class AuthService {
   }
 
   getToken(): string {
-    // TODO: return the token
+    // DONE: return the token
     return localStorage.getItem('id_token') || '';
   }
 
   login(idToken: string) {
-    // TODO: set the token to localStorage
-    // TODO: redirect to the home page
+    // DONE: set the token to localStorage
+    localStorage.setItem('id_token', idToken);
+    // DONE: redirect to the home page
+    window.location.assign('/');
   }
 
   logout() {
