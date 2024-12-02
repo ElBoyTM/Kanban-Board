@@ -42,8 +42,8 @@ export function UserFactory(sequelize: Sequelize): typeof User {
       },
     },
     {
-      tableName: 'users',
       sequelize,
+      tableName: 'users',
       hooks: {
         beforeCreate: async (user: User) => {
           user.password = await bcrypt.hash(user.password, 10);
