@@ -46,11 +46,13 @@ export function UserFactory(sequelize: Sequelize): typeof User {
       sequelize,
       hooks: {
         beforeCreate: async (user: User) => {
-          await user.setPassword(user.password);
+          user.password = await bcrypt.hash(user.password, 10);
         },
-        beforeUpdate: async (user: User) => {
-          await user.setPassword(user.password);
-        },
+        beforeBulkCreate: async (users: User[]) => {
+          for (const user of users) {
+            user.password = await bcrypt.hash(user.password, 10);
+          }
+        }
       }
     }
   );
