@@ -13,16 +13,18 @@ const retrieveTickets = async () => {
         }
       }
     );
-    const data = await response.json();
-
-    if(!response.ok) {
-      throw new Error('invalid API response, check network tab!');
+    
+    if (!response.ok) {
+      // Handle non-JSON responses
+      const errorText = await response.text();
+      throw new Error(`Error ${response.status}: ${errorText}`);
     }
 
+    const data = await response.json();
     return data;
   } catch (err) {
     console.log('Error from data retrieval: ', err);
-    return [];
+    throw err; // Re-throw the error to handle it further up the call stack if needed
   }
 };
 
