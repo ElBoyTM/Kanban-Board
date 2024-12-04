@@ -13,7 +13,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     return res.sendStatus(401);
   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET || 'default_secret', (err, user) => {
     if (err) {
       return res.sendStatus(403);
     }
